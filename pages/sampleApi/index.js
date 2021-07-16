@@ -31,7 +31,7 @@ export default function Home({ data }) {
                 </tr>
                 {data.landing_courses.map((landCoures) => (
                     landCoures.courses.map((course) => (
-                        <tr key={course.id} class="divide-y">
+                        <tr key={course.id} className="divide-y">
                             <td className="p-4 text-xs">{course.category}</td>
                             <td className="p-4"><img src={course.image_url} alt={course.title} style={{ width:"50px" }} /></td>
                             <td className="p-4">{course.title}</td>
