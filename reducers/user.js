@@ -8,6 +8,7 @@ export const SET_INBOX = 'SET_INBOX'
 export const SET_STARRED = 'SET_STARRED'
 export const SET_SENT = 'SET_SENT'
 export const SET_TRASH = 'SET_TRASH';
+export const SET_MLIST = 'SET_MLIST'
 
 export const setUserProfile = (userProfile) => ({
   type: SET_USER_PROFILE,
@@ -32,6 +33,11 @@ export const setSent = (sent) => ({
 export const setTrash = (trash) => ({
   type: SET_TRASH,
   payload: trash,
+})
+
+export const setMailLists = (mailLists) => ({
+  type: SET_MLIST,
+  payload: mailLists,
 })
 
 const initialInbox = (uid) => {
@@ -69,6 +75,7 @@ const initialState = {
   starred: initialStar(users.users[0].uid),
   sent: initialSent(users.users[0].uid),
   trash: initialTrash(users.users[0].uid),
+  mailThreadLists: mailThread.mailThreads,
   mailLists: mails.mails,
   userLists: users.users
 }
@@ -109,6 +116,13 @@ const user = (state = initialState, action) => {
         trash: action.payload
       }
     }
+    
+    case SET_MLIST: {
+      return {
+        ...state,
+        mailLists: action.payload
+      }
+    }
 
     default:
       return {
@@ -123,6 +137,7 @@ const user = (state = initialState, action) => {
         starred: initialStar(users.users[0].uid),
         sent: initialSent(users.users[0].uid),
         trash: initialTrash(users.users[0].uid),
+        mailThreadLists: mailThread.mailThreads,
         mailLists: mails.mails,
         userLists: users.users
       }

@@ -4,7 +4,7 @@ import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
 import Date from '../components/date'
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { setUserProfile } from '../reducers/user';
 import InboxMails from '../components/inboxMails'
 
@@ -12,7 +12,12 @@ import InboxMails from '../components/inboxMails'
 // };
 
 export default function Starred({  }) {
-    const [mails, setMails] = useState(useSelector((state) => state.user.starred))
+    const mails = useSelector(state => (state.user.starred), shallowEqual)
+    //const [mails, setMails] = useState(useSelector((state) => state.user.starred))
+
+    // useEffect(() => {
+    //     setMails(mails)
+    // }, [mails])
     
     return (
         <Layout starred>
@@ -22,7 +27,7 @@ export default function Starred({  }) {
             <section>
                 {
                     mails.map((mail, index) => {
-                        return <InboxMails mail={mail} key={index} />
+                        return <InboxMails mail={mail} type="starred" key={index} />
                     })
                 }
             </section>

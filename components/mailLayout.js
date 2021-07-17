@@ -7,15 +7,34 @@ import { IoMdOptions, IoMdHelpCircleOutline, IoIosKeypad, IoMdSend } from "react
 import { FaTrash } from "react-icons/fa";
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { setUserProfile } from '../reducers/user';
+import { setUserProfile, setMailLists, setSent } from '../reducers/user';
 import users from '../user.json';
+import { v4 as uuidv4 } from 'uuid';
 
-export default function Layout({ children, inbox, starred, sent, trash }) {
+export default function Layout({ children, inbox, starred, sent, trash, type }) {
     const dispatch = useDispatch();
     const jwtTokenUser = useSelector((state) => state.user.userProfile);
     const [isMailActive, setMailActive] = useState(false);
     const [isProfileActive, setProfileActive] = useState(false);
     const [otherUsers, setOtherUsers] = useState([]);
+    const [mails, setMails] = useState([])
+    const sentMailList = useSelector((state) => state.user.sent)
+    const mailList = useSelector((state) => state.user.mailLists)
+    const [recipient, setRecipient] = useState("");
+    const [title, setTitle] = useState("");
+	const [content, setContent] = useState("");
+
+    const onRecipientChange = (e) => {
+        setRecipient(e.target.value)
+      }
+
+    const onTitleChange = (e) => {
+        setTitle(e.target.value)
+      }
+
+    const onContentChange = (e) => {
+        setContent(e.target.value)
+      }
 
     useEffect(() => {
         const firstOtherUsers = []
@@ -26,6 +45,18 @@ export default function Layout({ children, inbox, starred, sent, trash }) {
             }
         }
         setOtherUsers(firstOtherUsers);
+
+        for(var i in sentMailList) {
+            for(var j in sentMailList[i].mails) {
+                const selectMail = mailList.filter(list => list.uid == sentMailList[i].mails[j].uid);
+                if(selectMail[0].senderOfuid == jwtTokenUser.uid) {
+                    const cp = [...mails]
+                    cp.push(sentMailList[i])
+                    setMails(cp)
+                    break;
+                }
+            }
+        }
     },[]);
 
     const onChangeUser = (id) => {
@@ -40,6 +71,54 @@ export default function Layout({ children, inbox, starred, sent, trash }) {
             }
         }
         setOtherUsers(changeOtherUsers);
+    }
+
+    const sendMsg = () => {
+        const mailUid = uuidv4();
+        const mailThUid = uuidv4();
+
+        let today = new Date();
+        let month = today.getMonth() + 1;
+        let date = today.getDate();
+        let hours = today.getHours();
+        let minutes = today.getMinutes();
+
+        const finishReci = otherUsers.filter(u => u.email == recipient)
+
+        const mPayload = {
+            content: content,
+            date: month+"월 "+date+"일 "+hours+":"+minutes,
+            recipientUids: [
+                {
+                    uid: finishReci[0].uid,
+                }
+            ],
+            senderOfuid: jwtTokenUser.uid,
+            uid: mailUid
+        }
+        const mThPayload = {
+            hostOfuid: jwtTokenUser.uid,
+            isDelete: false,
+            isRead: false,
+            isStarred: false,
+            mails: [
+                {
+                    uid: mailUid,
+                }
+            ],
+            title: title,
+            uid: mailThUid
+        }
+        
+        const mp = [...mailList]
+        mp.push(mPayload)
+        dispatch(setMailLists(mp));
+
+        const smp = [...mails]
+        smp.push(mThPayload)
+        dispatch(setSent(smp));
+
+        setMailActive(!isMailActive)
     }
     
     return (
@@ -83,13 +162,13 @@ export default function Layout({ children, inbox, starred, sent, trash }) {
             </header>
             <hr />
             <main>
-                <div className="h-full float-left min-w-max" style={{ width: "256px" }}>
+                <div className="h-screen float-left min-w-max" style={{ width: "256px" }}>
                     <div className="flex shadow-md rounded-full h-12 py-2 px-3 w-28 cursor-pointer ml-3 my-4" onClick={() => { setMailActive(!isMailActive); }}>
                         <img className="absolute" src="https://www.gstatic.com/images/icons/material/colored_icons/2x/create_32dp.png" width="34" />
                         <p className="my-2 ml-10 text-xs">편지쓰기</p>
                     </div>
                     <div>
-                        {inbox ? (<div className="bg-gray-200 rounded-r-full mr-4 cursor-pointer">
+                        {inbox || type=="inbox" ? (<div className="bg-gray-200 rounded-r-full mr-4 cursor-pointer">
                                 <Link href="/">
                                     <div className="ml-6 h-8 pt-2">
                                         <IoFileTraySharp className="absolute text-gray-500" size="20" />
@@ -105,7 +184,7 @@ export default function Layout({ children, inbox, starred, sent, trash }) {
                                 </Link>
                             </div>)
                         }
-                        {starred ? (<div className="bg-gray-200 rounded-r-full mr-4 cursor-pointer">
+                        {starred || type=="starred" ? (<div className="bg-gray-200 rounded-r-full mr-4 cursor-pointer">
                                 <Link href="/starred">
                                     <div className="ml-6 h-8 pt-2">
                                         <IoStarSharp className="absolute text-gray-500" size="20" />
@@ -121,7 +200,7 @@ export default function Layout({ children, inbox, starred, sent, trash }) {
                                 </Link>
                             </div>)
                         }
-                        {sent ? (<div className="bg-gray-200 rounded-r-full mr-4 cursor-pointer">
+                        {sent || type=="sent" ? (<div className="bg-gray-200 rounded-r-full mr-4 cursor-pointer">
                                 <Link href="/sent">
                                     <div className="ml-6 h-8 pt-2">
                                         <IoMdSend className="absolute text-gray-500" size="20" />
@@ -137,7 +216,7 @@ export default function Layout({ children, inbox, starred, sent, trash }) {
                                 </Link>
                             </div>)
                         }
-                        {trash ? (<div className="bg-gray-200 rounded-r-full mr-4 cursor-pointer">
+                        {trash || type=="trash" ? (<div className="bg-gray-200 rounded-r-full mr-4 cursor-pointer">
                                 <Link href="/trash">
                                     <div className="ml-6 h-8 pt-2">
                                         <FaTrash className="absolute text-gray-500" size="20" />
@@ -165,19 +244,22 @@ export default function Layout({ children, inbox, starred, sent, trash }) {
                     <div className="px-4">
                         <div>
                             <p className="inline-block text-xs py-2 text-gray-400">받는 사람</p>
-                            <input type="text" className="text-xs py-2 ml-2 outline-none" style={{ width: "354px" }} />
+                            <input type="text" className="text-xs py-2 ml-2 outline-none" style={{ width: "354px" }}
+                                value={recipient} onChange={e => onRecipientChange(e)} />
                             <hr />
                         </div>
                         <div>
-                            <input type="text" placeholder="제목" className="text-xs py-2 outline-none w-full" />
+                            <input type="text" placeholder="제목" className="text-xs py-2 outline-none w-full" 
+                                value={title} onChange={e => onTitleChange(e)} />
                             <hr />
                         </div>
                         <div>
-                            <textarea className="w-full text-xs py-3 outline-none resize-none" style={{ height: "266px" }}></textarea>
+                            <textarea className="w-full text-xs py-3 outline-none resize-none" style={{ height: "266px" }}
+                                value={content} onChange={e => onContentChange(e)}></textarea>
                         </div>
                         <div>
                             <div className="bg-blue-500 rounded" style={{ width: "72px", height: "36px" }}>
-                                <button className="mx-4 text-xs text-white">보내기</button>
+                                <button className="mx-4 text-xs text-white" onClick={() => sendMsg()}>보내기</button>
                             </div>
                         </div>
                     </div>
@@ -196,8 +278,9 @@ export default function Layout({ children, inbox, starred, sent, trash }) {
                     <div>
                         {
                         otherUsers.map((otherUser, index) => {
+                            // onClick={() => { onChangeUser(otherUser.uid); }}
                             return (
-                                <div key={index} className="px-8 py-3 cursor-pointer z-20" onClick={() => { onChangeUser(otherUser.uid); }}>
+                                <div key={index} className="px-8 py-3 cursor-pointer z-20">
                                     <div className="inline-block mr-3 align-middle">
                                         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-purple-700 text-white text-sm">{otherUser.firstOfName}</div>
                                     </div>

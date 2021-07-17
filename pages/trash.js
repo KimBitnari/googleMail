@@ -22,7 +22,7 @@ export default function Trash({  }) {
             <section>
                 {
                     mails.map((mail, index) => {
-                        return <InboxMails mail={mail} key={index} />
+                        return <InboxMails mail={mail} type="trash" key={index} />
                     })
                 }
             </section>
