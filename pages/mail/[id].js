@@ -46,7 +46,7 @@ export default function Post({ id, type }) {
             <div className="inline-block pl-16 pt-5 pb-2 text-xl">{mail.title}</div>
                 {
                     detailMails.map((m, index) => {
-                        return <div key={index}><DetailMails mail={m} /><hr /></div>
+                        return <div key={index}><DetailMails mail={m} index={index} /><hr /></div>
                     })
                 }
         </section>
