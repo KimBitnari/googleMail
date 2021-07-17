@@ -1,47 +1,31 @@
 import Head from 'next/head'
-import Layout, { siteTitle } from '../components/mailLayout'
-import utilStyles from '../styles/utils.module.css'
-import { getSortedPostsData } from '../lib/posts'
-import Link from 'next/link'
-import Date from '../components/date'
+import Layout from '../components/mailLayout'
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import InboxMails from '../components/inboxMails'
 
-export async function getStaticProps() {
-  const allPostsData = getSortedPostsData()
-  return {
-    props: {
-      allPostsData
-    }
-  }
-}
+// export async function getServerSideProps(context) {
+//   return {
+//     props: { 
+//       data: data 
+//     }
+//   }
+// };
 
-export default function Home({ allPostsData }) {
+export default function Home({  }) {
+  const [mails, setMails] = useState(useSelector((state) => state.user.inbox))
+
   return (
     <Layout inbox>
       <Head>
         <title>Gmail</title>
       </Head>
-      <section className={utilStyles.headingMd}>
-        <p>Hello, I&apos;m Bitnari Kim!</p>
-        <p>
-          (This is a sample website - you’ll be building a site like this on{' '}
-          <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
-        </p>
-      </section>
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Blog</h2>
-        <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title}) => (
-            <li className={utilStyles.listItem} key={id}>
-              <Link href={`/posts/${id}`}>
-                <a>{title}</a>
-              </Link>
-              <br />
-              <small className={utilStyles.lightText}>
-                <Date dateString={date} />
-              </small>
-            </li>
-          ))}
-        </ul>
+      <section>
+        {
+          mails.map((mail, index) => {
+            return <InboxMails mail={mail} key={index} />
+          })
+        }
       </section>
     </Layout>
   )
