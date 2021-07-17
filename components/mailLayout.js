@@ -8,7 +8,7 @@ import { FaTrash } from "react-icons/fa";
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserProfile } from '../reducers/user';
-import users from '../posts/user.json';
+import users from '../user.json';
 
 export default function Layout({ children, inbox, starred, sent, trash }) {
     const dispatch = useDispatch();

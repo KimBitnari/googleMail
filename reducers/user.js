@@ -1,6 +1,6 @@
-import users from '../posts/user.json';
-import mails from '../posts/mails.json';
-import mailThread from '../posts/mailThread.json';
+import users from '../user.json';
+import mails from '../mails.json';
+import mailThread from '../mailThread.json';
 
 export const SET_USER_PROFILE = 'SET_USER_PROFILE'
 

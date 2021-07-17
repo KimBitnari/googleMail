@@ -4,7 +4,6 @@ import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
 import Date from '../components/date'
 import React, { useState, useEffect } from 'react';
-import users from '../posts/user.json';
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserProfile } from '../reducers/user';
 import InboxMails from '../components/inboxMails'
