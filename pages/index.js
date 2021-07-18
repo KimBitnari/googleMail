@@ -29,15 +29,18 @@ export default function Home({  }) {
   const onChange = e => {
     //console.log(e)
     if(e.isStarred) {
-
+      const cp = [...starredMails]
+      cp.push(e)
+      console.log(cp)
+      setStarredMails(cp)
+      dispatch(setStarred(cp));
     }
     else {
       const cp = [...starredMails]
       const index = cp.findIndex(x => x.uid === e.uid)
       cp.splice(index, 1)
       setStarredMails(cp)
-      console.log(cp)
-      dispatch(setStarred(starredMails));
+      dispatch(setStarred(cp));
     }
   }
 

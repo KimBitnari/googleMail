@@ -34,6 +34,8 @@ export default function InboxMails (props) {
                 }
             }
 
+            console.log(selectUser[0].name)
+
             if(i == props.mail.mails.length-1) setDate(selectMail[0].date)
         }
     },[]);
@@ -46,7 +48,7 @@ export default function InboxMails (props) {
 
     // hover:shadow-md
     return <div> 
-        <div className={isRead? "absolute bg-gray-100 right-0" : ""}  style={ isRead? { width:"calc(100% - 256px)", height:"40px" } : { }}>
+        <div className={isRead? "inline-block bg-gray-100 right-0" : ""}  style={ isRead? { width:"calc(100% - 256px)", height:"40px" } : { }}>
             <div className="inline-block align-middle px-2 py-2">{isStarred? <IoStar className="cursor-pointer" color="#ffd500" size="22" onClick={() => onChangeStar()} /> : <IoStarOutline className="cursor-pointer" color="lightGrey" size="22" onClick={() => onChangeStar()} /> }</div>
             <Link href={`/mail/${props.mail.uid}?type=${props.type}`}>
                 <div className="inline-block cursor-pointer" style={ isRead? { width:"calc(100% - 40px)" } : { width:"calc(100% - 296px)" }}>

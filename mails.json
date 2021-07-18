@@ -35,6 +35,28 @@
             ],
             "content": "안내문 관련 공지는 오늘 17시 이후에 업로드될 예정입니다. 참고하시기 바랍니다.",
             "date": "7월 15일 13:00"
+        },
+        {
+            "uid": "d2af4acd-d3f88-ccdb-9fe5-11d5bee657b",
+            "senderOfuid": "90f8e8e2-9808-4614-9b18-b8b4b58ed089",
+            "recipientUids": [
+                {
+                    "uid": "7e476687-0627-40cf-bcde-09c9cfe7cb18"
+                }
+            ],
+            "content": "점심은 뭐드셨나요?? ㅋㅋㅋ",
+            "date": "7월 15일 15:15"
+        },
+        {
+            "uid": "9fe5ccdb-657b-8bee-d2af-d3f84acd11d5",
+            "senderOfuid": "7e476687-0627-40cf-bcde-09c9cfe7cb18",
+            "recipientUids": [
+                {
+                    "uid": "90f8e8e2-9808-4614-9b18-b8b4b58ed089"
+                }
+            ],
+            "content": "저는 오랜만에 집밥 먹었습니다! 김치찌개랑 계랑말이랑 등등 ㅎㅎㅎ",
+            "date": "7월 15일 16:38"
         }
     ]
 }
