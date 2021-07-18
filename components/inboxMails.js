@@ -19,7 +19,7 @@ export default function InboxMails (props) {
             const selectMail = mailList.filter(list => list.uid == props.mail.mails[i].uid);
             const selectUser = userList.filter(list => list.uid == selectMail[0].senderOfuid)
 
-            if(selectUser[0].uid == jwtTokenUser.uid) continue;
+            if(selectUser[0].uid === jwtTokenUser.uid) continue;
             // {
             //     const cp = [...mailUser]
             //     cp.push("나")
