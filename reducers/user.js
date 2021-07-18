@@ -9,6 +9,7 @@ export const SET_STARRED = 'SET_STARRED'
 export const SET_SENT = 'SET_SENT'
 export const SET_TRASH = 'SET_TRASH';
 export const SET_MLIST = 'SET_MLIST'
+export const SET_MTHLIST = 'SET_MTHLIST'
 
 export const setUserProfile = (userProfile) => ({
   type: SET_USER_PROFILE,
@@ -40,10 +41,35 @@ export const setMailLists = (mailLists) => ({
   payload: mailLists,
 })
 
+export const setMailThreadLists = (mailThreadLists) => ({
+  type: SET_MTHLIST,
+  payload: mailThreadLists,
+})
+
 const initialInbox = (uid) => {
+  let result = []
   const data = mailThread.mailThreads.filter(thread => thread.hostOfuid == uid);
   const dataFilter = data.filter(d => d.isDelete == false)
-  return dataFilter
+
+  var cnt = 0
+  for(var i in dataFilter) {
+    for(var j in dataFilter[i].mails) {
+      const selectMail = mails.mails.filter(list => list.uid == dataFilter[i].mails[j].uid);
+      if(selectMail[0].senderOfuid == uid) {
+        cnt = 1
+        break;
+      }
+    }
+    if(cnt == 1) {
+      const cp = [...dataFilter]
+      const index = cp.findIndex(x => x.uid === dataFilter[i].uid)
+      cp.splice(index, 1)
+      result = [...cp]
+    }
+    cnt = 0;
+  }
+  
+  return result
 }
 
 const initialStar = (uid) => {
@@ -53,9 +79,29 @@ const initialStar = (uid) => {
 }
 
 const initialSent = (uid) => {
+  let result = []
   const data = mailThread.mailThreads.filter(thread => thread.hostOfuid == uid);
   const dataFilter = data.filter(d => d.isDelete == false)
-  return dataFilter
+
+  var cnt = 0
+  for(var i in dataFilter) {
+    for(var j in dataFilter[i].mails) {
+      const selectMail = mails.mails.filter(list => list.uid == dataFilter[i].mails[j].uid);
+      if(selectMail[0].senderOfuid == uid) {
+        cnt = 1
+        break;
+      }
+    }
+    if(cnt == 0) {
+      const cp = [...dataFilter]
+      const index = cp.findIndex(x => x.uid === dataFilter[i].uid)
+      cp.splice(index, 1)
+      result = [...cp]
+    }
+    cnt = 0;
+  }
+
+  return result
 }
 
 const initialTrash = (uid) => {
@@ -121,6 +167,13 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         mailLists: action.payload
+      }
+    }
+
+    case SET_MTHLIST: {
+      return {
+        ...state,
+        mailThreadLists: action.payload
       }
     }
 

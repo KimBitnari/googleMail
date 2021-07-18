@@ -33,6 +33,7 @@ export default function Post({ id, type }) {
 
     useEffect(() => {
         const filterMail = mThList.filter(m => m.uid == id)
+        console.log(filterMail)
         setMail(filterMail[0])
         setDetailMails(filterMail[0].mails)
     }, [])

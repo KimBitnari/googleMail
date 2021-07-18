@@ -7,7 +7,7 @@ import { IoMdOptions, IoMdHelpCircleOutline, IoIosKeypad, IoMdSend } from "react
 import { FaTrash } from "react-icons/fa";
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { setUserProfile, setMailLists, setSent } from '../reducers/user';
+import { setUserProfile, setMailLists, setSent, setMailThreadLists } from '../reducers/user';
 import users from '../user.json';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -20,6 +20,7 @@ export default function Layout({ children, inbox, starred, sent, trash, type }) 
     const [mails, setMails] = useState([])
     const sentMailList = useSelector((state) => state.user.sent)
     const mailList = useSelector((state) => state.user.mailLists)
+    const mThList = useSelector((state) => state.user.mailThreadLists)
     const [recipient, setRecipient] = useState("");
     const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
@@ -46,17 +47,18 @@ export default function Layout({ children, inbox, starred, sent, trash, type }) 
         }
         setOtherUsers(firstOtherUsers);
 
-        for(var i in sentMailList) {
-            for(var j in sentMailList[i].mails) {
-                const selectMail = mailList.filter(list => list.uid == sentMailList[i].mails[j].uid);
-                if(selectMail[0].senderOfuid == jwtTokenUser.uid) {
-                    const cp = [...mails]
-                    cp.push(sentMailList[i])
-                    setMails(cp)
-                    break;
-                }
-            }
-        }
+        setMails(sentMailList)
+        // for(var i in sentMailList) {
+        //     for(var j in sentMailList[i].mails) {
+        //         const selectMail = mailList.filter(list => list.uid == sentMailList[i].mails[j].uid);
+        //         if(selectMail[0].senderOfuid == jwtTokenUser.uid) {
+        //             const cp = [...mails]
+        //             cp.push(sentMailList[i])
+        //             setMails(cp)
+        //             break;
+        //         }
+        //     }
+        // }
     },[]);
 
     const onChangeUser = (id) => {
@@ -76,6 +78,7 @@ export default function Layout({ children, inbox, starred, sent, trash, type }) 
     const sendMsg = () => {
         const mailUid = uuidv4();
         const mailThUid = uuidv4();
+        const otherMailThUid = uuidv4();
 
         let today = new Date();
         let month = today.getMonth() + 1;
@@ -99,7 +102,7 @@ export default function Layout({ children, inbox, starred, sent, trash, type }) 
         const mThPayload = {
             hostOfuid: jwtTokenUser.uid,
             isDelete: false,
-            isRead: false,
+            isRead: true,
             isStarred: false,
             mails: [
                 {
@@ -109,6 +112,19 @@ export default function Layout({ children, inbox, starred, sent, trash, type }) 
             title: title,
             uid: mailThUid
         }
+        const otherThPayload = {
+            hostOfuid: finishReci[0].uid,
+            isDelete: false,
+            isRead: false,
+            isStarred: false,
+            mails: [
+                {
+                    uid: mailUid,
+                }
+            ],
+            title: title,
+            uid: otherMailThUid
+        }
         
         const mp = [...mailList]
         mp.push(mPayload)
@@ -117,6 +133,11 @@ export default function Layout({ children, inbox, starred, sent, trash, type }) 
         const smp = [...mails]
         smp.push(mThPayload)
         dispatch(setSent(smp));
+
+        const thmp = [...mThList]
+        thmp.push(mThPayload)
+        thmp.push(otherThPayload)
+        dispatch(setMailThreadLists(thmp));
 
         setMailActive(!isMailActive)
     }

@@ -13,32 +13,41 @@ import SentMails from '../components/sentMails'
 
 export default function Sent({  }) {
     const dispatch = useDispatch();
-    const [mails, setMails] = useState([])
-    const sentMailList = useSelector((state) => state.user.sent)
-    const mailList = useSelector((state) => state.user.mailLists)
-    const jwtTokenUser = useSelector((state) => state.user.userProfile);
+    const [mails, setMails] = useState(useSelector((state) => state.user.sent))
+    // const sentMailList = useSelector((state) => state.user.sent)
+    // const mailList = useSelector((state) => state.user.mailLists)
+    // const jwtTokenUser = useSelector((state) => state.user.userProfile);
     const [starredMails, setStarredMails] = useState(useSelector((state) => state.user.starred))
 
-    useEffect(() => {
-        for(var i in sentMailList) {
-            for(var j in sentMailList[i].mails) {
-                const selectMail = mailList.filter(list => list.uid == sentMailList[i].mails[j].uid);
-                if(selectMail[0].senderOfuid == jwtTokenUser.uid) {
-                    const cp = [...mails]
-                    cp.push(sentMailList[i])
-                    setMails(cp)
-                    break;
-                }
-            }
-        }
-    },[]);
+    // useEffect(() => {
+    //     var cnt = 0
+    //     for(var i in sentMailList) {
+    //         for(var j in sentMailList[i].mails) {
+    //             const selectMail = mailList.filter(list => list.uid == sentMailList[i].mails[j].uid);
+    //             if(selectMail[0].senderOfuid == jwtTokenUser.uid) {
+    //                 // const cp = [...mails]
+    //                 // cp.push(sentMailList[i])
+    //                 // setMails(cp)
+    //                 // break;
+    //                 cnt = 1
+    //                 break;
+    //             }
+    //         }
+    //         if(cnt == 0) {
+    //             const cp = [...mails]
+    //             const index = cp.findIndex(x => x.uid === sentMailList[i].uid)
+    //             cp.splice(index, 1)
+    //             setMails(cp)
+    //         }
+    //         cnt = 0;
+    //     }
+    // },[]);
 
     const onChange = e => {
         //console.log(e)
         if(e.isStarred) {
           const cp = [...starredMails]
           cp.push(e)
-          console.log(cp)
           setStarredMails(cp)
           dispatch(setStarred(cp));
         }
@@ -67,7 +76,7 @@ export default function Sent({  }) {
             <section>
                 {
                     mails.map((mail, index) => {
-                        return <SentMails mail={mail} onChange={e => onChange(e)} onChangeRead={e => onChangeRead(e)} key={index} />
+                        return <SentMails mail={mail} onChange={e => onChange(e)} onChangeRead={e => onChangeRead(e)} type="sent" key={index} />
                     })
                 }
             </section>

@@ -22,9 +22,9 @@ export default function Home({  }) {
   const [mails, setMails] = useState(useSelector((state) => state.user.inbox))
   const [starredMails, setStarredMails] = useState(useSelector((state) => state.user.starred))
 
-  useEffect(() => {
-    console.log(mails)
-  }, [mails])
+  // useEffect(() => {
+  //   console.log(mails)
+  // }, [mails])
 
   const onChange = e => {
     //console.log(e)

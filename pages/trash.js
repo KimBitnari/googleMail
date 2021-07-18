@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { setStarred } from '../reducers/user';
 import InboxMails from '../components/inboxMails'
+import SentMails from '../components/sentMails'
 
 // export async function getServerSideProps(context) {
 // };
@@ -15,6 +16,12 @@ export default function Trash({  }) {
     const dispatch = useDispatch();
     const [mails, setMails] = useState(useSelector((state) => state.user.trash))
     const [starredMails, setStarredMails] = useState(useSelector((state) => state.user.starred))
+    const inboxMails = useSelector((state) => state.user.inbox)
+    const [isInbox, setInbox] = useState(false)
+
+    // useEffect(() => {
+    //     mails.filter(mail => mail.id )
+    // }, [])
 
     const onChange = e => {
         //console.log(e)
@@ -42,7 +49,11 @@ export default function Trash({  }) {
             <section>
                 {
                     mails.map((mail, index) => {
-                        return <InboxMails mail={mail} onChange={e => onChange(e)} type="trash" key={index} />
+                        if(inboxMails.includes(mail)) setInbox(true)
+                        return isInbox?
+                            <InboxMails mail={mail} onChange={e => onChange(e)} type="trash" key={index} />
+                            :
+                            <SentMails mail={mail} onChange={e => onChange(e)} type="trash" key={index} />
                     })
                 }
             </section>

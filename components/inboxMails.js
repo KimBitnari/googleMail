@@ -34,8 +34,6 @@ export default function InboxMails (props) {
                 }
             }
 
-            console.log(selectUser[0].name)
-
             if(i == props.mail.mails.length-1) setDate(selectMail[0].date)
         }
     },[]);

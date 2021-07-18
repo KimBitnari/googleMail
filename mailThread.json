@@ -4,7 +4,7 @@
             "uid": "de5c90ab-ada8-4a7d-1e80-da51b35def73",
             "hostOfuid": "90f8e8e2-9808-4614-9b18-b8b4b58ed089",
             "title": "인사드립니다~",
-            "isRead": false,
+            "isRead": true,
             "isStarred": false,
             "isDelete": false,
             "mails": [
@@ -26,7 +26,7 @@
             "uid": "de5c90ab-1e80-4a7d-ada8-da51b35def73",
             "hostOfuid": "7e476687-0627-40cf-bcde-09c9cfe7cb18",
             "title": "인사드립니다~",
-            "isRead": false,
+            "isRead": true,
             "isStarred": false,
             "isDelete": false,
             "mails": [
@@ -80,6 +80,32 @@
             "mails": [
                 {
                     "uid": "db1f6626-2ddd-4a99-8cf3-f051898cdd2d"
+                }
+            ]
+        },
+        {
+            "uid": "108d6f4c-9808-4614-9b18-05db0cabc8bc",
+            "hostOfuid": "90f8e8e2-9808-4614-9b18-b8b4b58ed089",
+            "title": "질문이 있습니다!!!",
+            "isRead": true,
+            "isStarred": false,
+            "isDelete": false,
+            "mails": [
+                {
+                    "uid": "a14b1a83-0999-9797-8393-a08fdc7e4bd1"
+                }
+            ]
+        },
+        {
+            "uid": "108d6f4c-bfe5-bfe5-a14b-a08fdc7e9797",
+            "hostOfuid": "1a838393-0999-4bd1-a14b-a08fdc7e979",
+            "title": "질문이 있습니다!!!",
+            "isRead": false,
+            "isStarred": false,
+            "isDelete": false,
+            "mails": [
+                {
+                    "uid": "a14b1a83-0999-9797-8393-a08fdc7e4bd1"
                 }
             ]
         }

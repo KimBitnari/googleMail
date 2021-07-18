@@ -16,21 +16,18 @@ export default function SentMails (props) {
 
     useEffect(() => {
         for(var i in props.mail.mails) {
-            const selectMail = mailList.filter(list => list.uid == props.mail.mails[i].uid);
-            const selectUser = userList.filter(list => list.uid == selectMail[0].senderOfuid)
-
-            if(selectUser[0].uid == jwtTokenUser.uid) continue;
-            // {
-            //     const cp = [...mailUser]
-            //     cp.push("나")
-            //     setMailUser(cp)
-            // }
-            else {
-                const cp = [...mailUser]
-                if(cp.includes(selectUser[0].name)) continue;
+            const selectMails = mailList.filter(list => list.uid == props.mail.mails[i].uid);
+            const selectMail = selectMails[0].recipientUids
+            for(var j in selectMail) {
+                const selectUser = userList.filter(list => list.uid == selectMail[j].uid)
+                if(selectUser[0].uid == jwtTokenUser.uid) continue;
                 else {
-                    cp.push(selectUser[0].name)
-                    setMailUser(cp)
+                    const cp = [...mailUser]
+                    if(cp.includes(selectUser[0].name)) continue;
+                    else {
+                        cp.push(selectUser[0].name)
+                        setMailUser(cp)
+                    }
                 }
             }
 
@@ -55,7 +52,7 @@ export default function SentMails (props) {
     return <div> 
         <div className={isRead? "inline-block bg-gray-100 right-0" : ""}  style={ isRead? { width:"calc(100% - 256px)", height:"40px" } : { }}>
             <div className="inline-block align-middle px-2 py-2">{isStarred? <IoStar className="cursor-pointer" color="#ffd500" size="22" onClick={() => onChangeStar()} /> : <IoStarOutline className="cursor-pointer" color="lightGrey" size="22" onClick={() => onChangeStar()} /> }</div>
-            <Link href={`/mail/${props.mail.uid}?type=sent`}>
+            <Link href={`/mail/${props.mail.uid}?type=${props.type}`}>
                 <div className="inline-block cursor-pointer" style={ isRead? { width:"calc(100% - 40px)" } : { width:"calc(100% - 296px)" }} onClick={() => onChangeRead()}>
                     <div className="inline-block text-xs align-middle pr-8 py-2">
                         받는사람: 
