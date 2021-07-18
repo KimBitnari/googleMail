@@ -61,7 +61,7 @@
             "uid": "108d6f4c-4e4b-4e4b-4e4b-05db0cabc8bc",
             "hostOfuid": "90f8e8e2-9808-4614-9b18-b8b4b58ed089",
             "title": "안내문 관련 공지",
-            "isRead": true,
+            "isRead": false,
             "isStarred": true,
             "isDelete": false,
             "mails": [

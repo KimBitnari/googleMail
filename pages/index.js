@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Layout from '../components/mailLayout'
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { setStarred } from '../reducers/user';
+import { setStarred, setInbox } from '../reducers/user';
 import InboxMails from '../components/inboxMails'
 
 // export async function getServerSideProps(context) {
@@ -44,6 +44,14 @@ export default function Home({  }) {
     }
   }
 
+  const onChangeRead = e => {
+    const cp = [...mails]
+    const index = cp.findIndex(x => x.uid === e.uid)
+    cp.splice(index, 1, e)
+    setMails(cp)
+    dispatch(setInbox(cp));
+  }
+
   return (
     <Layout inbox>
       <Head>
@@ -52,7 +60,7 @@ export default function Home({  }) {
       <section>
         {
           mails.map((mail, index) => {
-            return <InboxMails mail={mail} onChange={e => onChange(e)} type="inbox" key={index} />
+            return <InboxMails mail={mail} onChange={e => onChange(e)} onChangeRead={e => onChangeRead(e)} type="inbox" key={index} />
           })
         }
       </section>

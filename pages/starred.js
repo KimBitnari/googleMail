@@ -38,6 +38,14 @@ export default function Starred({  }) {
           dispatch(setStarred(cp));
         }
     }
+
+    const onChangeRead = e => {
+        const cp = [...starredMails]
+        const index = cp.findIndex(x => x.uid === e.uid)
+        cp.splice(index, 1, e)
+        setStarredMails(cp)
+        dispatch(setStarred(cp));
+    }
     
     return (
         <Layout starred>
@@ -48,7 +56,7 @@ export default function Starred({  }) {
                 {
                     mails.map((mail, index) => {
                         console.log(mails)
-                        return <InboxMails mail={mail} onChange={e => onChange(e)} type="starred" key={index} />
+                        return <InboxMails mail={mail} onChange={e => onChange(e)} onChangeRead={e => onChangeRead(e)} type="starred" key={index} />
                     })
                 }
             </section>
