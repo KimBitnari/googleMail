@@ -109,6 +109,14 @@ export default function Layout({ children, inbox, starred, sent, trash, type }) 
                     uid: mailUid,
                 }
             ],
+            participants: [
+                {
+                    uid: jwtTokenUser.uid,
+                },
+                {
+                    uid: finishReci[0].uid,
+                }
+            ],
             title: title,
             uid: mailThUid
         }
@@ -120,6 +128,14 @@ export default function Layout({ children, inbox, starred, sent, trash, type }) 
             mails: [
                 {
                     uid: mailUid,
+                }
+            ],
+            participants: [
+                {
+                    uid: jwtTokenUser.uid,
+                },
+                {
+                    uid: finishReci[0].uid,
                 }
             ],
             title: title,

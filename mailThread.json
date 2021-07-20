@@ -20,6 +20,14 @@
                 {
                     "uid": "9fe5ccdb-657b-8bee-d2af-d3f84acd11d5"
                 }
+            ],
+            "participants": [
+                {
+                    "email": "bling@gmail.com"
+                },
+                {
+                    "email": "nari@gmail.com"
+                }
             ]
         },
         {
@@ -42,6 +50,14 @@
                 {
                     "uid": "9fe5ccdb-657b-8bee-d2af-d3f84acd11d5"
                 }
+            ],
+            "participants": [
+                {
+                    "email": "bling@gmail.com"
+                },
+                {
+                    "email": "nari@gmail.com"
+                }
             ]
         },
         {
@@ -54,6 +70,17 @@
             "mails": [
                 {
                     "uid": "db1f6626-2ddd-4a99-8cf3-f051898cdd2d"
+                }
+            ],
+            "participants": [
+                {
+                    "email": "bling@gmail.com"
+                },
+                {
+                    "email": "nari@gmail.com"
+                },
+                {
+                    "email": "idontknow@gmail.com"
                 }
             ]
         },
@@ -68,6 +95,17 @@
                 {
                     "uid": "db1f6626-2ddd-4a99-8cf3-f051898cdd2d"
                 }
+            ],
+            "participants": [
+                {
+                    "email": "bling@gmail.com"
+                },
+                {
+                    "email": "nari@gmail.com"
+                },
+                {
+                    "email": "idontknow@gmail.com"
+                }
             ]
         },
         {
@@ -80,6 +118,17 @@
             "mails": [
                 {
                     "uid": "db1f6626-2ddd-4a99-8cf3-f051898cdd2d"
+                }
+            ],
+            "participants": [
+                {
+                    "email": "bling@gmail.com"
+                },
+                {
+                    "email": "nari@gmail.com"
+                },
+                {
+                    "email": "idontknow@gmail.com"
                 }
             ]
         },
@@ -94,6 +143,14 @@
                 {
                     "uid": "a14b1a83-0999-9797-8393-a08fdc7e4bd1"
                 }
+            ],
+            "participants": [
+                {
+                    "email": "nari@gmail.com"
+                },
+                {
+                    "email": "idontknow@gmail.com"
+                }
             ]
         },
         {
@@ -106,6 +163,14 @@
             "mails": [
                 {
                     "uid": "a14b1a83-0999-9797-8393-a08fdc7e4bd1"
+                }
+            ],
+            "participants": [
+                {
+                    "email": "nari@gmail.com"
+                },
+                {
+                    "email": "idontknow@gmail.com"
                 }
             ]
         }
